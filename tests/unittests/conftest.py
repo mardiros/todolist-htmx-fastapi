@@ -1,9 +1,14 @@
+from typing import Iterator
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
+from todolist.adapters.repositories import InMemoryUnitOfWork
 from todolist.config import Settings
+from todolist.domain.repositories import AbstractTodoListRepository
 from todolist.entrypoint import bootstrap
+from todolist.service.unit_of_work import AbstractUnitOfWork
 
 
 class ConfiguredOnce:
@@ -11,12 +16,23 @@ class ConfiguredOnce:
 
 
 @pytest.fixture()
-async def app() -> FastAPI:
-    settings = Settings()
+def app_settings() -> Iterator[Settings]:
+    return Settings()  # type: ignore
+
+
+@pytest.fixture()
+async def uow(app_settings: Settings) -> AbstractUnitOfWork:
+    uow = InMemoryUnitOfWork(app_settings)
+    return uow
+
+
+@pytest.fixture()
+async def app(app_settings: Settings, uow: AbstractUnitOfWork) -> FastAPI:
     if ConfiguredOnce.app:
         app = ConfiguredOnce.app
     else:
-        app = await bootstrap(settings)
+        app_settings.uow = uow
+        app = await bootstrap(app_settings)
         ConfiguredOnce.app = app
     return app
 
@@ -24,3 +40,13 @@ async def app() -> FastAPI:
 @pytest.fixture
 def client(app: FastAPI):
     return TestClient(app)
+
+
+@pytest.fixture
+async def todolist_repository(
+    params, uow: AbstractUnitOfWork
+) -> AbstractTodoListRepository:
+    async with uow as uow:
+        for item in params["todolist"]:
+            await uow.todolist.add(item)
+        return uow.todolist

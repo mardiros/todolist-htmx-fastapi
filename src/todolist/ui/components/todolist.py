@@ -3,18 +3,21 @@ from typing import Annotated
 from fastapi import Response
 
 from todolist.adapters.fastapi import (
-    Templatizer,
     FastAPIConfigurator,
-    templatize,
+    FastConfig,
+    Templatizer,
     configure,
+    templatize,
 )
-from todolist.domain.model import TodoListItem
 
 
 async def todolist(
+    app: FastConfig,
     templatize: Annotated[Templatizer, templatize("todolist.jinja2")],
 ) -> Response:
-    todo = [TodoListItem(label="Buy some milk")]
+    async with app.uow as uow:
+        todo = await app.uow.todolist.list()
+        await uow.rollback()
     return await templatize(todolist=todo)
 
 

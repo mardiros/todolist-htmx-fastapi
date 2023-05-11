@@ -1,5 +1,9 @@
+{% if todolist %}
 <ul>
     {%- for todo in todolist -%}
     <li>{{todo.label}}</li>
     {%- endfor -%}
 </ul>
+{% else %}
+<b>Congrats, you have nothing to do.</b>
+{% endif %}

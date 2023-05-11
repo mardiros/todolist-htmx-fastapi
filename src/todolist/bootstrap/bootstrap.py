@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-import todolist.ui.index
 import todolist.ui.components.todolist
+import todolist.ui.index
 from todolist.adapters.fastapi import FastAPIConfigurator
 from todolist.config import Settings
 

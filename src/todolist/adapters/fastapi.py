@@ -7,7 +7,9 @@ from fastapi.routing import APIRouter
 from starlette.types import ASGIApp
 
 from todolist.adapters.jinja2 import Jinja2TemplateRender
+from todolist.adapters.repositories import InMemoryUnitOfWork
 from todolist.config import Settings
+from todolist.service.unit_of_work import AbstractUnitOfWork
 
 log = logging.getLogger(__name__)
 
@@ -29,9 +31,13 @@ def configure(
 
 
 class AppConfig:
+    uow: AbstractUnitOfWork
+    renderer: Jinja2TemplateRender
+
     def __init__(self, settings: Settings):
         self.settings = settings
         self.renderer = Jinja2TemplateRender(settings.template_search_path)
+        self.uow = InMemoryUnitOfWork(settings)
 
 
 class FastAPIConfigurator(venusian.Scanner):

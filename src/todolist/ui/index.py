@@ -3,10 +3,10 @@ from typing import Annotated
 from fastapi import Response
 
 from todolist.adapters.fastapi import (
-    Templatizer,
     FastAPIConfigurator,
-    templatize,
+    Templatizer,
     configure,
+    templatize,
 )
 
 
