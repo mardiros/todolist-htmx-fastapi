@@ -77,3 +77,23 @@ class FastAPIConfigurator(venusian.Scanner):
 
 
 FastConfig = Annotated[AppConfig, Depends(lambda: FastAPIConfigurator.config)]
+
+
+Parametrizer = Coroutine[Any, Any, Response]
+Templatizer = Callable[..., Parametrizer]
+TemplateEngine = Callable[[AppConfig], Templatizer]
+
+
+def jinja2resp(template: str) -> TemplateEngine:
+    def templatizer(app: FastConfig) -> Templatizer:
+        async def parametrizer(**kwargs: Any) -> Response:
+            data = await app.renderer.render(template, **kwargs)
+            return Response(data)
+
+        return parametrizer
+
+    return templatizer
+
+
+def templatize(template: str) -> TemplateEngine:
+    return Depends(jinja2resp(template))

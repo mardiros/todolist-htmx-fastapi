@@ -1,32 +1,13 @@
-from typing import Annotated, Any, Callable, Coroutine
+from typing import Annotated
 
-from fastapi import Depends, Response
+from fastapi import Response
 
 from todolist.adapters.fastapi import (
-    AppConfig,
+    Templatizer,
     FastAPIConfigurator,
-    FastConfig,
+    templatize,
     configure,
 )
-
-Parametrizer = Coroutine[Any, Any, Response]
-Templatizer = Callable[..., Parametrizer]
-TemplateEngine = Callable[[AppConfig], Templatizer]
-
-
-def jinja2resp(template: str) -> TemplateEngine:
-    def templatizer(app: FastConfig) -> Templatizer:
-        async def parametrizer(**kwargs: Any) -> Response:
-            data = await app.renderer.render(template, **kwargs)
-            return Response(data)
-
-        return parametrizer
-
-    return templatizer
-
-
-def templatize(template: str) -> TemplateEngine:
-    return Depends(jinja2resp(template))
 
 
 async def serve_index(
