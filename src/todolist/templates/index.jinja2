@@ -1,5 +1,12 @@
 <html>
+<head>
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</head>
 <body>
     <h1>My TODO List</h1>
+
+    <div hx-get="/components/todo-list" hx-trigger="load"></div>
+        <div>loading the list...</div>
+    </div>
 </body>
 </html>
