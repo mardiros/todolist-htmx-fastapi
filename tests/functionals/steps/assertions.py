@@ -35,8 +35,9 @@ def assert_h1(context: Any, text: str):
     context.browser.find_element_by_xpath(f"//h1[contains(text(), '{text}')]")
 
 
+@then('I see the input "{placeholder}"')
 @then('I see the input "{placeholder}" contains "{text}"')
-def assert_input(context: Any, placeholder: str, text: str):
+def assert_input_contains(context: Any, placeholder: str, text: str = ""):
     input = context.browser.find_element_by_xpath(
         f"//input[@placeholder='{placeholder}']"
     )

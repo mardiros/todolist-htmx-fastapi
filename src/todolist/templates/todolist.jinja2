@@ -1,7 +1,7 @@
 {% if todolist %}
 <ul>
     {%- for todo in todolist -%}
-    <li>{{todo.label}}</li>
+    <li>{{todo.label}}&nbsp;<span hx-delete="/components/todo-list/{{todo.id}}" hx-trigger="click">X</span></li>
     {%- endfor -%}
 </ul>
 {% else %}

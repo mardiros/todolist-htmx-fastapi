@@ -3,10 +3,9 @@ Feature: As a user, I can view my todo list
   Scenario: View the todolist
     Given anonymous user on the index page
     Then I see the heading "My TODO List"
-    Then I see the text "Congrats, you have nothing to do"
-    Then I see the input "Farm some gems"
+    And I see the text "Congrats, you have nothing to do"
+    And I see the input "Farm some gems"
 
-  @dev
   Scenario: Add item the todolist
     Given anonymous user on the index page
     When I fill the field "Farm some gems" with "Write some code"
