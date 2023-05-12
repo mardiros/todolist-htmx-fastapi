@@ -43,8 +43,17 @@ async def create_item(
     return ret
 
 
+async def delete_item(app: FastConfig, item_id: str) -> Response:
+    async with app.uow as uow:
+        await uow.todolist.remove(TodoListItem(id=item_id, label="xxx"))
+    return Response("", status_code=204, headers={"HX-Trigger": "reload-todo-list"})
+
+
 @configure
 def includeme(app: FastAPIConfigurator) -> None:
     app.add_api_route("/components/todo-list", todolist, methods=["GET"])
     app.add_api_route("/components/todo-list/new", new_item, methods=["GET"])
     app.add_api_route("/components/todo-list", create_item, methods=["POST"])
+    app.add_api_route(
+        "/components/todo-list/{item_id}", delete_item, methods=["DELETE"]
+    )
