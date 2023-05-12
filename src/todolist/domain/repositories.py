@@ -10,5 +10,9 @@ class AbstractTodoListRepository(abc.ABC):
         ...
 
     @abc.abstractmethod
+    async def remove(self, item: TodoListItem) -> None:
+        ...
+
+    @abc.abstractmethod
     async def list(self) -> Sequence[TodoListItem]:
         ...

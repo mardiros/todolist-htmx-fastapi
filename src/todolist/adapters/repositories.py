@@ -14,6 +14,9 @@ class InMemoryTodoListRepository(AbstractTodoListRepository):
     async def add(self, item: TodoListItem) -> None:
         self.items.append(item)
 
+    async def remove(self, item: TodoListItem) -> None:
+        self.items = [i for i in self.items if item.id != i.id]
+
     async def list(self) -> Sequence[TodoListItem]:
         return self.items
 
