@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import AsyncIterator
 
 import pytest
 from fastapi import FastAPI
@@ -16,14 +16,15 @@ class ConfiguredOnce:
 
 
 @pytest.fixture()
-def app_settings() -> Iterator[Settings]:
-    return Settings()  # type: ignore
+def app_settings() -> Settings:
+    return Settings()
 
 
 @pytest.fixture()
-async def uow(app_settings: Settings) -> AbstractUnitOfWork:
+async def uow(app_settings: Settings) -> AsyncIterator[AbstractUnitOfWork]:
     uow = InMemoryUnitOfWork(app_settings)
-    return uow
+    yield uow
+    uow.todolist.items.clear()  # type: ignore
 
 
 @pytest.fixture()

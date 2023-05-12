@@ -1,12 +1,16 @@
 <html>
+
 <head>
-  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 </head>
+
 <body>
     <h1>My TODO List</h1>
 
-    <div hx-get="/components/todo-list" hx-trigger="load">
+    <div hx-get="/components/todo-list" hx-trigger="load, reload-todo-list from:body">
         <div>loading the list...</div>
     </div>
+    <div hx-get="/components/todo-list/new" hx-trigger="load"></div>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Response
+from fastapi import Form, Response
 
 from todolist.adapters.fastapi import (
     FastAPIConfigurator,
@@ -9,6 +9,7 @@ from todolist.adapters.fastapi import (
     configure,
     templatize,
 )
+from todolist.domain.model import TodoListItem
 
 
 async def todolist(
@@ -21,6 +22,29 @@ async def todolist(
     return await templatize(todolist=todo)
 
 
+async def new_item(
+    app: FastConfig,
+    templatize: Annotated[Templatizer, templatize("new_item.jinja2")],
+) -> Response:
+    return await templatize()
+
+
+async def create_item(
+    app: FastConfig,
+    label: Annotated[str, Form()],
+    templatize: Annotated[Templatizer, templatize("new_item.jinja2")],
+) -> Response:
+    item = TodoListItem(label=label)
+    async with app.uow as uow:
+        await app.uow.todolist.add(item)
+        await uow.commit()
+    ret = await templatize()
+    ret.headers.append("HX-Trigger", "reload-todo-list")
+    return ret
+
+
 @configure
 def includeme(app: FastAPIConfigurator) -> None:
     app.add_api_route("/components/todo-list", todolist, methods=["GET"])
+    app.add_api_route("/components/todo-list/new", new_item, methods=["GET"])
+    app.add_api_route("/components/todo-list", create_item, methods=["POST"])
