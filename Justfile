@@ -23,6 +23,9 @@ pytest test_suite=default_test_suite:
 lf:
     poetry run pytest -sxvvv --lf
 
+buildcss:
+    poetry run tailwindcss -i ./src/todolist/ui/assets/styles/main.css -o ./src/todolist/ui/static/css/main.css
+
 cov test_suite=default_test_suite:
     rm -f .coverage
     rm -rf htmlcov
@@ -32,7 +35,7 @@ cov test_suite=default_test_suite:
 functest test_suite=default_functest_suite:
     poetry run behave --tags=-dev --no-capture {{test_suite}}
 
-funcdevtest:
+funcdevtest: buildcss
     poetry run behave --tags=dev --no-capture tests/functionals/
 
 servetest:

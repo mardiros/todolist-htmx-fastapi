@@ -841,6 +841,18 @@ files = [
 ]
 
 [[package]]
+name = "pytailwindcss"
+version = "0.1.4"
+description = "Standalone Tailwind CSS CLI, installable via pip. Use Tailwind CSS without Node.js."
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "pytailwindcss-0.1.4-py3-none-any.whl", hash = "sha256:fa78a3abd650d48dade10d0282df71e2f2757934595f8470f0d0c2ce175f5a15"},
+    {file = "pytailwindcss-0.1.4.tar.gz", hash = "sha256:2376fe551674a00f38cbdf134fc6d1dc87bf43bb396c5d4ce183c7d63153c39f"},
+]
+
+[[package]]
 name = "pytest"
 version = "7.3.1"
 description = "pytest: simple powerful testing with Python"
@@ -1111,4 +1123,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "25f0db27026e5fccd558b38a0fade4489f54d42986411c63b9f1bfc358802a69"
+content-hash = "1b0d93a672285388e92beef7f69da378ffdffd3dc98b2ee3ef66083039eceac6"

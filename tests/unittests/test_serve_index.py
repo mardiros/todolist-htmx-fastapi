@@ -3,4 +3,6 @@ from fastapi.testclient import TestClient
 
 def test_serve_index(client: TestClient):
     resp = client.get("/")
-    assert "<h1>My TODO List</h1>" in resp.text
+    assert '<script src="https://unpkg.com/htmx.org@1.9.2"></script>' in resp.text
+    assert '<link href="/static/css/main.css" rel="stylesheet">' in resp.text
+    assert "My TODO List" in resp.text

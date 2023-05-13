@@ -18,12 +18,9 @@ async def test_serve_todolist(
 ):
     resp = client.get("/components/todo-list")
     id = params["todolist"][0].id
-    assert (
-        "<li>Buy some milk&nbsp;"
-        "<span "
-        f'hx-delete="/components/todo-list/{id}" '
-        'hx-trigger="click">X</span></li>' in resp.text
-    )
+    assert "Buy some milk&nbsp;" in resp.text
+    assert f'hx-delete="/components/todo-list/{id}"' in resp.text
+    assert 'hx-trigger="click"' in resp.text
 
 
 async def test_add_todolist_item(uow: AbstractUnitOfWork, client: TestClient):

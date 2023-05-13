@@ -2,11 +2,13 @@
 
 <head>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="/static/css/main.css" rel="stylesheet">
 </head>
 
-<body>
-    <h1>My TODO List</h1>
-
+<body class="space-x-5 space-y-5">
+    <header class="pl-5">
+        <h1 class="font-medium leading-tight text-5xl mt-0 mb-2 text-blue-600">My TODO List</h1>
+    </header>
     <div hx-get="/components/todo-list" hx-trigger="load, reload-todo-list from:body">
         <div>loading the list...</div>
     </div>

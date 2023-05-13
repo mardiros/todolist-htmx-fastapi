@@ -1,0 +1,15 @@
+<div class="text-xl font-medium text-black">
+    {% if todolist %}
+    <ul>
+        {%- for todo in todolist -%}
+        <li class="space-y-4">
+            {{todo.label}}&nbsp;
+            <button hx-delete="/components/todo-list/{{todo.id}}" hx-trigger="click"
+                class="px-4 py-1 text-sm font-semibold text-blue-600 hover:bg-blue-500 focus:ring-blue-600 cursor:pointer">X</button>
+        </li>
+        {%- endfor -%}
+    </ul>
+    {% else %}
+    <b>Congrats, you have nothing to do.</b>
+    {% endif %}
+</div>
