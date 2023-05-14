@@ -15,3 +15,9 @@ Feature: As a user, I can view my todo list
     And I click on the "Add" button
     Then I see the text "Write some code"
     Then I see the text "Package that code"
+
+  Scenario: Remove item from the todolist
+    Given an item "Peel potatoes"
+    And anonymous user on the index page
+    When I click on the "X" button
+    Then I see the text "Congrats, you have nothing to do"

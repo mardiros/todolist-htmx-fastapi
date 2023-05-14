@@ -10,3 +10,4 @@ def before_scenario(context: Any, scenario: Any):
     context.stash = defaultdict(dict)
     use_fixture(todolist, context, port=port)
     use_fixture(browser, context, port=port)
+    context.endpoint = f"http://localhost:{port}"
