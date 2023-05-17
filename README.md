@@ -29,3 +29,7 @@ there is just a command to serve the website and run a web browser.
 ```bash
 just funcdevtest
 ```
+
+### Demo
+
+![Demo Of The TODO](https://raw.githubusercontent.com/mardiros/todolist-htmx-fastapi/main/demo.gif)
