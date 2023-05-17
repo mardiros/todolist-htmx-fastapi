@@ -1,4 +1,4 @@
-package := 'casualcms'
+package := 'todolist'
 default_test_suite := 'tests/unittests'
 default_functest_suite := 'tests/functionals/'
 
